@@ -21,7 +21,6 @@ def _require_appkit():
             NSMenu,
             NSMenuItem,
             NSStatusBar,
-            NSVariableStatusBarItemLength,
         )
         from Foundation import NSObject
     except Exception as exc:  # pragma: no cover - runtime guard
@@ -37,7 +36,6 @@ def _require_appkit():
         NSMenu,
         NSMenuItem,
         NSStatusBar,
-        NSVariableStatusBarItemLength,
     )
 
 
@@ -77,7 +75,6 @@ def main() -> None:
         NSMenu,
         NSMenuItem,
         NSStatusBar,
-        NSVariableStatusBarItemLength,
     ) = _require_appkit()
 
     class AppDelegate(NSObject):
@@ -85,7 +82,7 @@ def main() -> None:
 
         def applicationDidFinishLaunching_(self, _notification):
             status_bar = NSStatusBar.systemStatusBar()
-            self.status_item = status_bar.statusItemWithLength_(NSVariableStatusBarItemLength)
+            self.status_item = status_bar.statusItemWithLength_(-1.0)
             self.status_item.button().setTitle_("CSVSafe")
 
             icon_path = _find_resource("csvsafe-menubar-glyph-18x18.png")

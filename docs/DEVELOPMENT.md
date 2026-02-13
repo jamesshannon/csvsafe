@@ -18,5 +18,6 @@ source .venv/bin/activate
 
 - `make lint`
 - `make test`
+- `make test-integration`
 - `make build`
 - `make package`
