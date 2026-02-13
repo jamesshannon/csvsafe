@@ -18,7 +18,7 @@ install: $(VENV)/bin/python
 	$(PIP) install -e ".[dev]"
 
 test: $(VENV)/bin/python
-	$(PYTEST) tests/ -v
+	$(PYTEST) tests/ -v -m "not integration"
 
 test-integration: build
 	CSVSAFE_RUN_GUI_TESTS=1 $(PYTEST) tests/integration/ -v -m integration
