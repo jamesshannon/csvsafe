@@ -80,6 +80,13 @@ def main() -> None:
     class AppDelegate(NSObject):
         status_item = None
 
+        def _process_path(self, path_str: str) -> bool:
+            result = handle_file(path_str)
+            if result is not None:
+                macos.notify("CSVSafe", f"Created {Path(result).name}", level="info")
+                return True
+            return False
+
         def applicationDidFinishLaunching_(self, _notification):
             status_bar = NSStatusBar.systemStatusBar()
             self.status_item = status_bar.statusItemWithLength_(-1.0)
@@ -134,9 +141,7 @@ def main() -> None:
                 return
 
             first = str(filenames[0])
-            result = handle_file(first)
-            if result is not None:
-                macos.notify("CSVSafe", f"Created {Path(result).name}", level="info")
+            self._process_path(first)
 
             if len(filenames) > 1:
                 macos.notify(
@@ -148,16 +153,27 @@ def main() -> None:
             app.replyToOpenOrPrint_(0)
 
         def application_openFile_(self, _app, filename):
-            result = handle_file(str(filename))
-            if result is not None:
-                macos.notify("CSVSafe", f"Created {Path(result).name}", level="info")
-                return True
+            return self._process_path(str(filename))
+
+        def applicationShouldOpenUntitledFile_(self, _app):
+            # Prevent macOS from showing an Open dialog when launching this menu bar app.
+            return False
+
+        def applicationShouldHandleReopen_hasVisibleWindows_(self, _app, _flag):
             return False
 
     app = NSApplication.sharedApplication()
     app.setActivationPolicy_(NSApplicationActivationPolicyAccessory)
     delegate = AppDelegate.alloc().init()
     app.setDelegate_(delegate)
+
+    # Fallback for launch paths that provide file arguments directly instead of open-file events.
+    for maybe_path in sys.argv[1:]:
+        candidate = Path(maybe_path)
+        if candidate.exists() and candidate.is_file():
+            delegate._process_path(str(candidate))
+            break
+
     app.run()
 
 

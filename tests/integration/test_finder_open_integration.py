@@ -47,7 +47,7 @@ def test_open_with_app_converts_csv(tmp_path: Path):
     xlsx_path = tmp_path / "finder_input.xlsx"
 
     proc = subprocess.run(
-        ["open", "-a", str(app_path), str(csv_path)],
+        ["open", "-n", "-a", str(app_path), str(csv_path)],
         check=False,
         capture_output=True,
         text=True,
