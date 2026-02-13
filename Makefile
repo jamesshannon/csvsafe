@@ -5,8 +5,10 @@ PYTEST := $(VENV)/bin/pytest
 RUFF := $(VENV)/bin/ruff
 PYINSTALLER := $(VENV)/bin/pyinstaller
 PYINSTALLER_CONFIG_DIR := .pyinstaller
+VERSION := $(shell $(PYTHON) -c "import tomllib;print(tomllib.load(open('pyproject.toml','rb'))['project']['version'])" 2>/dev/null)
+PACKAGE_ZIP := dist/CSVSafe-$(VERSION)-macos.zip
 
-.PHONY: install test lint build clean
+.PHONY: install test lint build package clean
 
 $(VENV)/bin/python:
 	python3.11 -m venv $(VENV)
@@ -23,6 +25,10 @@ lint: $(VENV)/bin/python
 
 build: $(VENV)/bin/python
 	PYINSTALLER_CONFIG_DIR=$(PYINSTALLER_CONFIG_DIR) $(PYINSTALLER) -y packaging/csvsafe.spec
+
+package: build
+	rm -f $(PACKAGE_ZIP)
+	cd dist && zip -r CSVSafe-$(VERSION)-macos.zip CSVSafe.app
 
 clean:
 	rm -rf build/ dist/ *.egg-info $(VENV) $(PYINSTALLER_CONFIG_DIR)
