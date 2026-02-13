@@ -4,6 +4,9 @@ PIP := $(VENV)/bin/pip
 PYTEST := $(VENV)/bin/pytest
 RUFF := $(VENV)/bin/ruff
 PYINSTALLER := $(VENV)/bin/pyinstaller
+PYINSTALLER_CONFIG_DIR := .pyinstaller
+
+.PHONY: install test lint build clean
 
 $(VENV)/bin/python:
 	python3.11 -m venv $(VENV)
@@ -19,7 +22,7 @@ lint: $(VENV)/bin/python
 	$(RUFF) check src/ tests/
 
 build: $(VENV)/bin/python
-	$(PYINSTALLER) packaging/csvsafe.spec
+	PYINSTALLER_CONFIG_DIR=$(PYINSTALLER_CONFIG_DIR) $(PYINSTALLER) -y packaging/csvsafe.spec
 
 clean:
-	rm -rf build/ dist/ *.egg-info $(VENV)
+	rm -rf build/ dist/ *.egg-info $(VENV) $(PYINSTALLER_CONFIG_DIR)

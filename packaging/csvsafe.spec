@@ -4,13 +4,14 @@ from pathlib import Path
 
 block_cipher = None
 project_root = Path.cwd()
+app_entry = project_root / "src" / "csvsafe" / "app.py"
 
 added_files = [
     (str(project_root / "assets" / "csvsafe-menubar-glyph-18x18.png"), "."),
 ]
 
 app = Analysis(
-    ['src/csvsafe/app.py'],
+    [str(app_entry)],
     pathex=[str(project_root / "src")],
     binaries=[],
     datas=added_files,
