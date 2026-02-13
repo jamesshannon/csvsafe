@@ -170,6 +170,9 @@ def main() -> None:
             # Prevent macOS from showing an Open dialog when launching this menu bar app.
             return False
 
+        def applicationOpenUntitledFile_(self, _app):
+            return False
+
         def applicationShouldHandleReopen_hasVisibleWindows_(self, _app, _flag):
             return False
 
@@ -178,13 +181,6 @@ def main() -> None:
     global _APP_DELEGATE
     _APP_DELEGATE = AppDelegate.alloc().init()
     app.setDelegate_(_APP_DELEGATE)
-
-    # Fallback for launch paths that provide file arguments directly instead of open-file events.
-    for maybe_path in sys.argv[1:]:
-        candidate = Path(maybe_path)
-        if candidate.exists() and candidate.is_file():
-            _APP_DELEGATE._process_path(str(candidate))
-            break
 
     app.run()
 

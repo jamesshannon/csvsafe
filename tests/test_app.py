@@ -156,7 +156,7 @@ def test_main_keeps_delegate_and_creates_status_item(monkeypatch):
     monkeypatch.setattr(app_mod, "handle_file", lambda _path: None)
     monkeypatch.setattr(app_mod.macos, "notify", lambda *args, **kwargs: None)
 
-    monkeypatch.setattr(app_mod.sys, "argv", ["csvsafe-menubar"]) 
+    monkeypatch.setattr(app_mod.sys, "argv", ["csvsafe-menubar"])
     app_mod.main()
 
     delegate = app_mod._APP_DELEGATE
@@ -165,6 +165,7 @@ def test_main_keeps_delegate_and_creates_status_item(monkeypatch):
     assert fake_app.run_called is True
     assert delegate.status_item is not None
     assert delegate.applicationShouldOpenUntitledFile_(fake_app) is False
+    assert delegate.applicationOpenUntitledFile_(fake_app) is False
     assert delegate.applicationShouldHandleReopen_hasVisibleWindows_(fake_app, True) is False
 
 
@@ -207,7 +208,7 @@ def test_open_handlers_process_paths_and_reply(monkeypatch, tmp_path: Path):
     assert processed == [str(csv1), str(csv1), str(csv2)]
 
 
-def test_main_processes_file_argument_fallback(monkeypatch, tmp_path: Path):
+def test_main_does_not_process_argv_file_paths(monkeypatch, tmp_path: Path):
     fake_app = _install_fake_appkit(monkeypatch)
     seen: list[str] = []
 
@@ -225,4 +226,4 @@ def test_main_processes_file_argument_fallback(monkeypatch, tmp_path: Path):
     app_mod.main()
 
     assert fake_app.run_called is True
-    assert seen == [str(csv_path)]
+    assert seen == []
