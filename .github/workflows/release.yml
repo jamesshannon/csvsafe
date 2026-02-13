@@ -1,0 +1,30 @@
+name: release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  release:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install
+        run: pip install -e ".[dev]"
+      - name: Test
+        run: pytest tests/ -v
+      - name: Build app
+        run: pyinstaller packaging/csvsafe.spec
+      - name: Archive
+        run: |
+          VERSION="${GITHUB_REF_NAME}"
+          cd dist
+          zip -r "CSVSafe-${VERSION}-macos.zip" CSVSafe.app
+      - name: Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: dist/CSVSafe-${{ github.ref_name }}-macos.zip

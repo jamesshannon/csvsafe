@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- Background rounded rectangle -->
+  <rect x="32" y="32" width="448" height="448" rx="64" ry="64" fill="#FFFFFF" stroke="#D0D0D0" stroke-width="8"/>
+
+  <!-- Spreadsheet grid -->
+  <!-- Horizontal lines -->
+  <line x1="80" y1="140" x2="432" y2="140" stroke="#B0B0B0" stroke-width="6"/>
+  <line x1="80" y1="210" x2="432" y2="210" stroke="#B0B0B0" stroke-width="6"/>
+  <line x1="80" y1="280" x2="432" y2="280" stroke="#B0B0B0" stroke-width="6"/>
+  <line x1="80" y1="350" x2="432" y2="350" stroke="#B0B0B0" stroke-width="6"/>
+  <line x1="80" y1="420" x2="432" y2="420" stroke="#B0B0B0" stroke-width="6"/>
+
+  <!-- Vertical lines -->
+  <line x1="80" y1="80" x2="80" y2="420" stroke="#B0B0B0" stroke-width="6"/>
+  <line x1="198" y1="80" x2="198" y2="420" stroke="#B0B0B0" stroke-width="6"/>
+  <line x1="316" y1="80" x2="316" y2="420" stroke="#B0B0B0" stroke-width="6"/>
+  <line x1="432" y1="80" x2="432" y2="420" stroke="#B0B0B0" stroke-width="6"/>
+
+  <!-- Header row background (Excel green) -->
+  <rect x="80" y="80" width="352" height="60" fill="#217346" rx="0"/>
+
+  <!-- Header text placeholders (white bars) -->
+  <rect x="105" y="102" width="68" height="16" rx="4" fill="#FFFFFF" opacity="0.9"/>
+  <rect x="223" y="102" width="68" height="16" rx="4" fill="#FFFFFF" opacity="0.9"/>
+  <rect x="341" y="102" width="68" height="16" rx="4" fill="#FFFFFF" opacity="0.9"/>
+
+  <!-- Data cell placeholders (gray bars) -->
+  <!-- Row 2 -->
+  <rect x="105" y="167" width="55" height="12" rx="3" fill="#C8C8C8"/>
+  <rect x="223" y="167" width="70" height="12" rx="3" fill="#C8C8C8"/>
+  <rect x="341" y="167" width="48" height="12" rx="3" fill="#C8C8C8"/>
+  <!-- Row 3 -->
+  <rect x="105" y="237" width="65" height="12" rx="3" fill="#C8C8C8"/>
+  <rect x="223" y="237" width="42" height="12" rx="3" fill="#C8C8C8"/>
+  <rect x="341" y="237" width="60" height="12" rx="3" fill="#C8C8C8"/>
+  <!-- Row 4 -->
+  <rect x="105" y="307" width="50" height="12" rx="3" fill="#C8C8C8"/>
+  <rect x="223" y="307" width="60" height="12" rx="3" fill="#C8C8C8"/>
+  <rect x="341" y="307" width="55" height="12" rx="3" fill="#C8C8C8"/>
+  <!-- Row 5 -->
+  <rect x="105" y="377" width="72" height="12" rx="3" fill="#C8C8C8"/>
+  <rect x="223" y="377" width="50" height="12" rx="3" fill="#C8C8C8"/>
+  <rect x="341" y="377" width="65" height="12" rx="3" fill="#C8C8C8"/>
+
+  <!-- Green checkmark circle (bottom-right overlay) -->
+  <circle cx="400" cy="400" r="80" fill="#217346" stroke="#FFFFFF" stroke-width="10"/>
+
+  <!-- Checkmark -->
+  <polyline points="352,400 385,433 448,365" fill="none" stroke="#FFFFFF" stroke-width="18" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

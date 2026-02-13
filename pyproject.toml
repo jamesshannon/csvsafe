@@ -1,0 +1,41 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "csvsafe"
+version = "0.1.0"
+description = "Convert CSV/TSV into text-safe XLSX files for macOS workflows"
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+authors = [{ name = "CSVSafe" }]
+dependencies = [
+  "openpyxl>=3.1.2",
+  "pyobjc-framework-Cocoa>=10.0; platform_system == 'Darwin'",
+  "pyobjc-framework-UserNotifications>=10.0; platform_system == 'Darwin'",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pyinstaller>=6.0",
+  "pytest>=8.0",
+  "ruff>=0.6.0",
+]
+
+[project.scripts]
+csvsafe = "csvsafe.cli:main"
+csvsafe-menubar = "csvsafe.app:main"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.ruff]
+line-length = 100
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
