@@ -3,9 +3,15 @@
 ## Setup
 
 ```bash
-python3.11 -m venv .venv
-source .venv/bin/activate
 make install
+```
+
+`make install` creates `.venv` automatically (if missing) and installs runtime + dev dependencies into it.
+
+If you want an interactive shell in that environment:
+
+```bash
+source .venv/bin/activate
 ```
 
 ## Commands

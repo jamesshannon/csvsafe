@@ -1,14 +1,25 @@
-install:
-	pip install -e ".[dev]"
+VENV := .venv
+PYTHON := $(VENV)/bin/python
+PIP := $(VENV)/bin/pip
+PYTEST := $(VENV)/bin/pytest
+RUFF := $(VENV)/bin/ruff
+PYINSTALLER := $(VENV)/bin/pyinstaller
 
-test:
-	pytest tests/ -v
+$(VENV)/bin/python:
+	python3.11 -m venv $(VENV)
 
-lint:
-	ruff check src/ tests/
+install: $(VENV)/bin/python
+	$(PIP) install --upgrade pip
+	$(PIP) install -e ".[dev]"
 
-build:
-	pyinstaller packaging/csvsafe.spec
+test: $(VENV)/bin/python
+	$(PYTEST) tests/ -v
+
+lint: $(VENV)/bin/python
+	$(RUFF) check src/ tests/
+
+build: $(VENV)/bin/python
+	$(PYINSTALLER) packaging/csvsafe.spec
 
 clean:
-	rm -rf build/ dist/ *.egg-info
+	rm -rf build/ dist/ *.egg-info $(VENV)

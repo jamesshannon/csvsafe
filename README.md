@@ -12,6 +12,8 @@ CSVSafe is a macOS menu bar app and CLI that converts CSV/TSV data into XLSX wit
 ## Quick Start
 
 ```bash
+python3.11 -m venv .venv
+source .venv/bin/activate
 make install
 make test
 ```
@@ -19,9 +21,9 @@ make test
 ## Run
 
 ```bash
-csvsafe convert /path/to/input.csv
-csvsafe clipboard
-csvsafe-menubar
+.venv/bin/csvsafe convert /path/to/input.csv
+.venv/bin/csvsafe clipboard
+.venv/bin/csvsafe-menubar
 ```
 
 ## License
