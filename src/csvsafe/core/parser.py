@@ -30,10 +30,15 @@ def parse_csv(text: str) -> ParseResult:
     sniffer = csv.Sniffer()
     warnings: list[str] = []
     dialect = None
+    allowed_delimiters = [",", "\t", ";"]
 
     try:
-        dialect = sniffer.sniff(sample)
+        dialect = sniffer.sniff(sample, delimiters=allowed_delimiters)
         delimiter = dialect.delimiter
+        if delimiter not in allowed_delimiters:
+            delimiter = ","
+            dialect = None
+            warnings.append("Could not detect delimiter; using comma.")
     except csv.Error:
         delimiter = ","
         warnings.append("Could not detect delimiter; using comma.")
