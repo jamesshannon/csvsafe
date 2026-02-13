@@ -150,6 +150,13 @@ def main() -> None:
 
             app.replyToOpenOrPrint_(0)
 
+        def application_openFile_(self, _app, filename):
+            result = handle_file(str(filename))
+            if result is not None:
+                macos.notify("CSVSafe", f"Created {Path(result).name}", level="info")
+                return True
+            return False
+
     app = NSApplication.sharedApplication()
     app.setActivationPolicy_(NSApplicationActivationPolicyAccessory)
     delegate = AppDelegate.alloc().init()

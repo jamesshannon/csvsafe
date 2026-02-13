@@ -19,8 +19,15 @@
     <dict>
       <key>CFBundleTypeName</key>
       <string>CSV/TSV Document</string>
+      <key>CFBundleTypeRole</key>
+      <string>Viewer</string>
       <key>LSHandlerRank</key>
       <string>Alternate</string>
+      <key>CFBundleTypeExtensions</key>
+      <array>
+        <string>csv</string>
+        <string>tsv</string>
+      </array>
       <key>LSItemContentTypes</key>
       <array>
         <string>public.comma-separated-values-text</string>

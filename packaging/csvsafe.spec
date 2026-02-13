@@ -1,10 +1,14 @@
 # -*- mode: python ; coding: utf-8 -*-
 
 from pathlib import Path
+import plistlib
 
 block_cipher = None
 project_root = Path.cwd()
 app_entry = project_root / "src" / "csvsafe" / "app.py"
+info_plist_path = project_root / "packaging" / "Info.plist.template"
+with info_plist_path.open("rb") as plist_file:
+    info_plist_data = plistlib.load(plist_file)
 
 added_files = [
     (str(project_root / "assets" / "csvsafe-menubar-glyph-18x18.png"), "."),
@@ -56,5 +60,5 @@ bundle = BUNDLE(
     name='CSVSafe.app',
     icon=str(project_root / 'assets' / 'csvsafe-icon.icns'),
     bundle_identifier='com.csvsafe.app',
-    info_plist=str(project_root / 'packaging' / 'Info.plist.template'),
+    info_plist=info_plist_data,
 )
