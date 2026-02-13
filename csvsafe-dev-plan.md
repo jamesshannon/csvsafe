@@ -150,7 +150,7 @@ def write_and_open(workbook: Workbook, source: InputSource) -> Path
 ### `src/csvsafe/input/file_handler.py` — File Input
 
 **Responsibilities:**
-- Accept file path(s) from macOS open-file events and drag-and-drop (`.csv` and `.tsv`)
+- Accept a single file path from macOS open-file events and drag-and-drop (`.csv` and `.tsv`)
 - Read file contents with encoding detection (UTF-8, then latin-1 fallback)
 - **Owns the flow:** calls parser, passes `ParseResult` to converter, passes workbook to writer
 - Constructs `InputSource` with `origin="file"` and the source path
@@ -180,7 +180,7 @@ def handle_clipboard() -> None
 
 **Responsibilities:**
 - Create and manage menubar icon using PyObjC (`NSStatusBar`, `NSStatusItem`)
-- Implement `NSApplication` delegate for open-file events (drag-and-drop, Open With)
+- Implement `NSApplication` delegate for open-file events (drag-and-drop, Open With) and process one input file per conversion request
 - Register menu items:
   - "Convert Clipboard" — calls clipboard handler
   - "About CSVSafe" — opens `https://github.com/jamesshannon/csvsafe/blob/main/MANUAL.md` in default browser
@@ -344,7 +344,6 @@ Fatal errors should fail gracefully with a user-friendly macOS notification. Non
 - [ ] Menubar → Convert Clipboard → converts and opens
 - [ ] Menubar → About CSVSafe → opens GitHub manual page in browser
 - [ ] Clipboard with tab-separated data works
-- [ ] Multiple files dropped simultaneously are each converted
 - [ ] Converting same file twice produces `file.xlsx` and `file (1).xlsx`
 - [ ] Clipboard output is read-only (spreadsheet app prompts Save As on save)
 - [ ] File output is writable (spreadsheet app saves in place)
