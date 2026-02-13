@@ -9,10 +9,11 @@ from csvsafe.input.clipboard_handler import handle_clipboard
 from csvsafe.input.file_handler import handle_file
 from csvsafe.platform import macos
 
+_APP_DELEGATE = None
+
 
 def _require_appkit():
     try:
-        import objc
         from AppKit import (
             NSApp,
             NSApplication,
@@ -27,7 +28,6 @@ def _require_appkit():
         raise RuntimeError("CSVSafe app requires macOS PyObjC runtime") from exc
 
     return (
-        objc,
         NSObject,
         NSApp,
         NSApplication,
@@ -66,7 +66,6 @@ def _find_resource(filename: str) -> str | None:
 
 def main() -> None:
     (
-        objc,
         NSObject,
         NSApp,
         NSApplication,
@@ -122,17 +121,14 @@ def main() -> None:
 
             self.status_item.setMenu_(menu)
 
-        @objc.signature("v@:@")
         def convertClipboard_(self, _sender):
             result = handle_clipboard()
             if result is not None:
                 macos.notify("CSVSafe", f"Created {Path(result).name}", level="info")
 
-        @objc.signature("v@:@")
         def openManual_(self, _sender):
             macos.open_url("https://github.com/jamesshannon/csvsafe/blob/main/MANUAL.md")
 
-        @objc.signature("v@:@")
         def quitApp_(self, _sender):
             NSApp().terminate_(None)
 
@@ -155,6 +151,21 @@ def main() -> None:
         def application_openFile_(self, _app, filename):
             return self._process_path(str(filename))
 
+        def application_openURLs_(self, _app, urls):
+            if not urls:
+                return
+
+            processed = False
+            for url in urls:
+                try:
+                    path = url.path()
+                except Exception:
+                    continue
+                if path and self._process_path(str(path)):
+                    processed = True
+                    break
+            return processed
+
         def applicationShouldOpenUntitledFile_(self, _app):
             # Prevent macOS from showing an Open dialog when launching this menu bar app.
             return False
@@ -164,14 +175,15 @@ def main() -> None:
 
     app = NSApplication.sharedApplication()
     app.setActivationPolicy_(NSApplicationActivationPolicyAccessory)
-    delegate = AppDelegate.alloc().init()
-    app.setDelegate_(delegate)
+    global _APP_DELEGATE
+    _APP_DELEGATE = AppDelegate.alloc().init()
+    app.setDelegate_(_APP_DELEGATE)
 
     # Fallback for launch paths that provide file arguments directly instead of open-file events.
     for maybe_path in sys.argv[1:]:
         candidate = Path(maybe_path)
         if candidate.exists() and candidate.is_file():
-            delegate._process_path(str(candidate))
+            _APP_DELEGATE._process_path(str(candidate))
             break
 
     app.run()
